@@ -1,4 +1,4 @@
-
+using CommanderGQL.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,7 +6,10 @@ var configuration = builder.Configuration;
 
 
 builder.Services.AddControllers();
-
+builder.Services.AddDbContext<AppDbContext>(opt =>
+{
+    opt.UseSqlServer(configuration.GetConnectionString("CommandConnectionString"));
+});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

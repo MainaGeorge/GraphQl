@@ -21,6 +21,29 @@ namespace CommanderGQL.Data
                 new() {Name = "PowerShell", Id = 4}
             });
 
+            modelBuilder.Entity<Command>().HasData(new List<Command>()
+            {
+                new()
+                {
+                    Id = 1, HowTo = "create a new solution", PlatformId = 1,
+                    CommandLineSnippet = "dotnet new solution -n {name}"
+                },
+                new()
+                {
+                    Id = 2, HowTo = "create a new folder", PlatformId = 2,
+                    CommandLineSnippet = "mkdir {name}"
+                },
+                new()
+                {
+                    Id = 3, HowTo = "list all containers", PlatformId = 3,
+                    CommandLineSnippet = "docker container ls --all"
+                },
+                new()
+                {
+                    Id = 4, HowTo = "how to get a process by name", PlatformId = 4,
+                    CommandLineSnippet = "Get-Process -Name {name}"
+                }
+            });
             modelBuilder.Entity<Platform>()
                 .HasMany(p => p.Commands)
                 .WithOne(p => p.Platform)

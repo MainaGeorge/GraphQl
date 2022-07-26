@@ -1,4 +1,5 @@
 using CommanderGQL.Data;
+using CommanderGQL.GraphQLArtifacts;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +13,9 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
 });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services
+    .AddGraphQLServer()
+    .AddQueryType<Query>();
 
 var app = builder.Build();
 
@@ -25,6 +29,6 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.MapControllers();
+app.MapGraphQL();
 
 app.Run();

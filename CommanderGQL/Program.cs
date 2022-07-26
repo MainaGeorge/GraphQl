@@ -1,5 +1,6 @@
 using CommanderGQL.Data;
 using CommanderGQL.GraphQLArtifacts;
+using GraphQL.Server.Ui.Voyager;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,7 +8,7 @@ var configuration = builder.Configuration;
 
 
 builder.Services.AddControllers();
-builder.Services.AddDbContext<AppDbContext>(opt =>
+builder.Services.AddPooledDbContextFactory<AppDbContext>(opt =>
 {
     opt.UseSqlServer(configuration.GetConnectionString("CommandConnectionString"));
 });
@@ -30,5 +31,10 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapGraphQL();
+
+app.UseGraphQLVoyager(new VoyagerOptions()
+{
+    GraphQLEndPoint = "/graphql",
+});
 
 app.Run();

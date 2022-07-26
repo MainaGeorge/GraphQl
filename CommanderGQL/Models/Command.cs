@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CommanderGQL.Models
 {
@@ -14,7 +13,6 @@ namespace CommanderGQL.Models
         public string CommandLineSnippet { get; set; }
 
         [Required]
-        [ForeignKey(nameof(Platform))]
         public int PlatformId { get; set; }
 
         public Platform Platform { get; set; }  

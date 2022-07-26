@@ -10,7 +10,7 @@ namespace CommanderGQL.Data
         }
 
         public DbSet<Platform> Platforms { get; set; }
-
+        public DbSet<Command> Commands { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Platform>().HasData(new List<Platform>
@@ -20,6 +20,16 @@ namespace CommanderGQL.Data
                 new() { Name = "Docker", Id=3},
                 new() {Name = "PowerShell", Id = 4}
             });
+
+            modelBuilder.Entity<Platform>()
+                .HasMany(p => p.Commands)
+                .WithOne(p => p.Platform)
+                .HasForeignKey(p => p.PlatformId);
+
+            modelBuilder.Entity<Command>()
+                .HasOne(p => p.Platform)
+                .WithMany(c => c.Commands)
+                .HasForeignKey(c => c.PlatformId);
 
             base.OnModelCreating(modelBuilder);
         }

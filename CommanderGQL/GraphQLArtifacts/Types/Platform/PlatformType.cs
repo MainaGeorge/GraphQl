@@ -1,5 +1,4 @@
 ﻿using CommanderGQL.Data;
-using CommanderGQL.Models;
 
 namespace CommanderGQL.GraphQLArtifacts.Types.Platform
 {
@@ -25,7 +24,7 @@ namespace CommanderGQL.GraphQLArtifacts.Types.Platform
 
         private class CommandResolver
         {
-            public IQueryable<Command> GetCommands([Parent] Models.Platform platform, [ScopedService] AppDbContext context)
+            public IQueryable<Models.Command> GetCommands([Parent] Models.Platform platform, [ScopedService] AppDbContext context)
             {
                 return context.Commands.Where(c => c.PlatformId == platform.Id);
             }

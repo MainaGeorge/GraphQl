@@ -1,5 +1,6 @@
 using CommanderGQL.Data;
 using CommanderGQL.GraphQLArtifacts;
+using CommanderGQL.GraphQLArtifacts.Mutations.Platform;
 using CommanderGQL.GraphQLArtifacts.Types.Command;
 using CommanderGQL.GraphQLArtifacts.Types.Platform;
 using GraphQL.Server.Ui.Voyager;
@@ -21,6 +22,7 @@ builder.Services
     .AddQueryType<Query>()
     .AddType<PlatformType>()
     .AddType<CommandType>()
+    .AddMutationType<PlatformMutations>()
     .AddProjections();
 
 var app = builder.Build();

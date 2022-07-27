@@ -1,5 +1,6 @@
 using CommanderGQL.Data;
 using CommanderGQL.GraphQLArtifacts;
+using CommanderGQL.GraphQLArtifacts.Types.Platform;
 using GraphQL.Server.Ui.Voyager;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +18,7 @@ builder.Services.AddSwaggerGen();
 builder.Services
     .AddGraphQLServer()
     .AddQueryType<Query>()
+    .AddType<PlatformType>()
     .AddProjections();
 
 var app = builder.Build();

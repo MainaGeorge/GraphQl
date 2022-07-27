@@ -1,8 +1,6 @@
 using CommanderGQL.Data;
 using CommanderGQL.GraphQLArtifacts;
 using CommanderGQL.GraphQLArtifacts.Mutations;
-using CommanderGQL.GraphQLArtifacts.Mutations.Command;
-using CommanderGQL.GraphQLArtifacts.Mutations.Platform;
 using CommanderGQL.GraphQLArtifacts.Types.Command;
 using CommanderGQL.GraphQLArtifacts.Types.Platform;
 using GraphQL.Server.Ui.Voyager;

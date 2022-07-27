@@ -7,7 +7,7 @@ namespace CommanderGQL.GraphQLArtifacts.Mutations
     public class Mutations
     {
         [UseDbContext(typeof(AppDbContext))]
-        public async Task<AddPlatformPayload> AddPlatform(AddPlatformInput input, [ScopedService] AppDbContext context)
+        public async Task<AddPlatformPayload> AddPlatformAsync(AddPlatformInput input, [ScopedService] AppDbContext context)
         {
             var platform = new Models.Platform
             {
@@ -22,7 +22,7 @@ namespace CommanderGQL.GraphQLArtifacts.Mutations
         }
 
         [UseDbContext(typeof(AppDbContext))]
-        public async Task<AddCommandPayload> AddCommand(AddCommandInput input, [ScopedService] AppDbContext context)
+        public async Task<AddCommandPayload> AddCommandAsync(AddCommandInput input, [ScopedService] AppDbContext context)
         {
             var command = new Models.Command
             {
@@ -35,6 +35,29 @@ namespace CommanderGQL.GraphQLArtifacts.Mutations
             await context.SaveChangesAsync();
 
             return new AddCommandPayload(command);
+        }
+
+
+        [UseDbContext(typeof(AppDbContext))]
+        public async Task<DeletePlatformPayload> DeletePlatformAsync(DeletePlatformInput input,
+            [ScopedService] AppDbContext context)
+        {
+            var platform = context.Platforms.FirstOrDefault(p => p.Id == input.PlatformId);
+
+            if (platform == null) return new DeletePlatformPayload(false);
+            context.Remove(platform);
+            return new DeletePlatformPayload(await context.SaveChangesAsync() > 0);
+        }
+
+        [UseDbContext(typeof(AppDbContext))]
+        public async Task<DeleteCommandPayload> DeleteCommandAsync(DeleteCommandInput input,
+            [ScopedService] AppDbContext context)
+        {
+            var command = context.Commands.FirstOrDefault(p => p.Id == input.CommandId);
+
+            if (command == null) return new DeleteCommandPayload(false);
+            context.Remove(command);
+            return new DeleteCommandPayload(await context.SaveChangesAsync() > 0);
         }
     }
 }

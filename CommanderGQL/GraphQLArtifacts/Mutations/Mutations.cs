@@ -1,6 +1,7 @@
 ﻿using CommanderGQL.Data;
 using CommanderGQL.GraphQLArtifacts.Mutations.Command;
 using CommanderGQL.GraphQLArtifacts.Mutations.Platform;
+using Microsoft.EntityFrameworkCore;
 
 namespace CommanderGQL.GraphQLArtifacts.Mutations
 {
@@ -58,6 +59,24 @@ namespace CommanderGQL.GraphQLArtifacts.Mutations
             if (command == null) return new DeleteCommandPayload(false);
             context.Remove(command);
             return new DeleteCommandPayload(await context.SaveChangesAsync() > 0);
+        }
+
+        [UseDbContext(typeof(AppDbContext))]
+        public async Task<UpdateCommandPayload> UpdateCommandAsync(UpdateCommandInput input,
+            [ScopedService] AppDbContext context)
+        {
+            var commandToUpdate = await context.Commands.FirstOrDefaultAsync(c => c.Id == input.CommandId);
+
+            if (commandToUpdate is null) return new UpdateCommandPayload { UpdateSucceeded = false };
+
+            commandToUpdate.CommandLineSnippet = input.CommandLineSnippet ?? commandToUpdate.CommandLineSnippet;
+            commandToUpdate.HowTo = input.HowTo ?? commandToUpdate.HowTo;
+
+
+            return new UpdateCommandPayload
+            {
+                UpdateSucceeded = await context.SaveChangesAsync() > 0
+            };
         }
     }
 }
